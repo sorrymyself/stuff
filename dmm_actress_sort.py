@@ -29,7 +29,7 @@ def dmm_search(file):
         PN = PN.replace(' ', '')
         if PN.endswith(('a', 'b', 'c', '1', '2')):
             PN = PN[:-1]
-    print(PN)
+            print(PN)
 
     while True:
         try:
