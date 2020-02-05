@@ -29,7 +29,7 @@ def dmm_search(file):
         PN = PN.replace(' ', '')
         if PN.endswith(('a', 'b', 'c')):
             PN = PN[:-1]
-            print(PN)
+        print(PN)
 
     while True:
         try:
@@ -86,11 +86,13 @@ def rmdir(path):
                 return None
 
     if os.path.exists(path):
-        try:
-            shutil.rmtree(path)
-        except:
-            print('remove failed, retrying one more time')
-            shutil.rmtree(path)
+        while True:
+            try:
+                shutil.rmtree(path)
+                break
+            except:
+                print('remove failed, retrying after ENTER')
+                raw_input()
             
         print('remove ' + path + '\n')
 
