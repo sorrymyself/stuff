@@ -84,7 +84,14 @@ def rmdir(path):
                 return None
 
     if os.path.exists(path):
-        shutil.rmtree(path)
+        while True:
+            try:
+                shutil.rmtree(path)
+                break
+            except:
+                print('remove failed, retrying after ENTER...')
+                input()
+            
         print('remove ' + path + '\n')
 
 
