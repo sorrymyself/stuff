@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import sys
 import os
 import shutil
 from bs4 import BeautifulSoup
@@ -108,8 +112,11 @@ def main():
 
 if __name__ == '__main__':
 
-    main_dir = ''
-    unsorted = ''
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
+
+    main_dir = '/root/K/TMP.old/PNSort'
+    unsorted = 'unsorted'
 
     ext = ('.mp4', '.iso', '.mkv', '.avi', '.flv', '.mov', '.wmv', '.rmvb')
 
