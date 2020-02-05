@@ -90,7 +90,7 @@ def rmdir(path):
                 break
             except:
                 print('remove failed, retrying after ENTER...')
-                input()
+                raw_input()
             
         print('remove ' + path + '\n')
 
