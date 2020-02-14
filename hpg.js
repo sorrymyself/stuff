@@ -135,8 +135,9 @@ function formSubmit(token) {
                         data: JSON.stringify(data),
                         dataType: 'json',
                         success: function (data) {
+                            console.log(data);
 
-                            if (data == 'ERROR') {
+                            if (data == 'jlfakaapi ERROR') {
                                 $$('.enroll h2').html('哎呀出错了！请初始刷新网页重试...');
                             } else {
                                 var amount = data.amount;
