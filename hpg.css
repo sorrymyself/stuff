@@ -1,5 +1,3 @@
-/* https://cdn.jsdelivr.net/gh/zayabighead/stuff@master/hpg.css */
-
 * {
     font-family: Microsoft YaHei
 }
@@ -11,13 +9,13 @@ a {
 .bg1 {
     width: 100%;
     height: 100vh;
-    background-image: linear-gradient(to bottom, #dcdcdc, #f7dcec, #ffdad9, #ffe5af, #fbff99);
+    background-image: linear-gradient(to left top, #f4ff00, #ffcb35, #ff9a7c, #ff84be, #f08cec);
 }
 
 .bg2 {
     width: 100%;
     padding-bottom: 100px;
-    background-image: linear-gradient(to top, #dcdcdc, #f7dcec, #ffdad9, #ffe5af, #fbff99);
+    background-image: linear-gradient(to left bottom, #f4ff00, #ffcb35, #ff9a7c, #ff84be, #f08cec);
 }
 
 .sec1 {
