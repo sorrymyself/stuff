@@ -1,163 +1,138 @@
-var $$ = mdui.JQ;
-
-
-function getProduct() {
-    $$('#product option').filter(function (idx, e) {
-        if (e.selected) {
-            var product = e.value;
-        }
-    });
-    return product.value
+function enQuery(data) {
+    const ret = [];
+    for (let d in data) {
+        ret.push(encodeURIComponent(d) + "=" + encodeURIComponent(data[d]));
+    }
+    return ret.join("&");
 }
 
 
-function getDomain() {
-    $$('#domain option').filter(function (idx, e) {
-        if (e.selected) {
-            var domain = e.value;
-        }
-    });
-    //console.log(domain.value);
-    return domain.value;
-}
+function getPrice(requestBody) {
 
+    var product = requestBody.product;
+    var domain = requestBody.domain;
 
-function getPayment_method() {
-    $$('#payment_method option').filter(function (idx, e) {
-        if (e.selected) {
-            var payment_method = e.value;
-        }
-    });
-    return payment_method.value
-}
-
-
-function getPrice() {
-
-    var lastname = $$('#lastname').val();
-    var firstname = $$('#firstname').val();
-    var product = getProduct();
-    var domain = getDomain();
-
-    var data = {
-        'product': product,
-        'domain': domain
-    };
-
-    if (
-        lastname != '' &
-        firstname != ''
-    ) {
-        $$('.waitprice').show();
-        $$('.waitprice .mdui-spinner').show();
-        $$('.waitprice .theprice').hide();
-        //get price
-        $$.ajax({
-            method: 'POST',
-            url: '/getPrice',
-            data: JSON.stringify(data),
-            dataType: 'json',
-            success: function (data) {
-                console.log(data.price);
-                $$('.theprice').html(data.price);
-                $$('.waitprice .mdui-spinner').hide();
-                $$('.waitprice .theprice').show();
+    switch (product) {
+        case 'gd':
+            switch (domain) {
+                case 'nz':
+                    return '35.00';
+                case 'rs':
+                    return '35.00';
+                case 'best':
+                    return '25.00';
             }
-        });
+            break;
+        case 'od':
+            switch (domain) {
+                case 'nz':
+                    return '2.00';
+                case 'rs':
+                    return '3.00';
+                case 'best':
+                    return '1.00';
+            }
+            break;
     }
 
 }
 
-$$('#sendmail').on('click', function (e) {
-    $$('#sendmaildiv').toggle();
-});
 
+async function jlfakaapi(requestBody) {
 
-$$('#product').on('close.mdui.select', function () {
-    getPrice();
-});
+    var url = 'http://116.62.128.125:233/pay/';
 
-$$('#domain').on('close.mdui.select', function () {
-    getPrice();
-});
+    var price = getPrice(requestBody);
+    var payment_method = requestBody.payment_method;
 
-$$('.mdui-textfield').on('click', function () {
-    getPrice();
-});
+    switch (payment_method) {
+        case 'alipay':
+            url += 'a/';
+            break;
+        case 'wechat':
+            url += 'w/';
+            break;
+    }
+    switch (price) {
+        case '35.00':
+            url += '5/7';
+            break;
+        case '25.00':
+            url += '5/5';
+            break;
+        case '3.00':
+            url += '1/3';
+            break;
+        case '2.00':
+            url += '1/1';
+            break;
+        case '1.00':
+            url += '1/1';
+            break;
+    }
+    console.log(url);
 
-
-function formSubmit(token) {
-
-    var price = $$('.theprice').html();
-
-    var lastname = $$('#lastname').val();
-    var firstname = $$('#firstname').val();
-    var username = $$('#username').val();
-    var contactemail = $$('#contactemail').val();
-    var product = getProduct();
-    var domain = getDomain();
-    var payment_method = getPayment_method();
-
-    var data = {
-        'lastname': lastname,
-        'firstname': firstname,
-        'username': username,
-        'contactemail': contactemail,
-        'product': product,
-        'domain': domain,
-        'payment_method': payment_method
-    };
-
-    mdui.dialog({
-        title: '支付',
-        content: `点击确认后您需支付 ${price} 元，期间请勿刷新网页。`,
-        modal: true,
-        buttons: [
-            {
-                text: '取消',
-                onClick: function (inst) {
-                    grecaptcha.reset();
-                }
-            },
-            {
-                text: '确认',
-                onClick: function (inst) {
-                    //html change
-                    $$('.enroll h2').html('请稍后...');
-                    $$('.accountinfo').hide();
-                    $$('.checkout').hide();
-                    $$('.mdui-progress').show();
-                    $$('.bg3').css('height', '100vh');
-                    //post data
-                    $$.ajax({
-                        method: 'POST',
-                        url: '/checkout',
-                        data: JSON.stringify(data),
-                        dataType: 'json',
-                        success: function (data) {
-                            var amount = data.amount;
-                            var method = data.method;
-                            var orderid = data.orderid;
-                            var qrcode = data.qrcode;
-
-                            $$('.enroll h2').html('请付款...');
-                            $$('.mdui-progress').hide();
-
-                            if (method == 'alipay') {
-                                $$('#alipay').show();
-                                $$('#alipay img').attr('src', qrcode);
-                            } else if (method == 'wechat') {
-                                $$('#wechat').show();
-                                $$('#wechat img').attr('src', qrcode);
-                            }
-
-                        }
-                    });
-
-                }
-            }
-        ]
+    var response = await fetch(url, {
+        method: 'GET'
     });
+    var results = await response.json();
+    console.log(results);
 
-
+    if (results.method == payment_method) {
+        return results;
+    } else {
+        console.log('jlfakaapi error');
+        return false;
+    }
 }
+
+/**
+ * Respond to the request
+ * @param {Request} request
+ */
+
+async function handleRequest(request) {
+
+    let url = new URL(request.url);
+    let path = url.pathname;
+
+    switch (path) {
+
+        case '/getPrice':
+            var requestBody = await request.json();
+            console.log(requestBody);
+
+            var price = '￥ ' + getPrice(requestBody);
+            return new Response(JSON.stringify({
+                'price': price
+            }));
+            break;
+
+        case '/checkout':
+            var requestBody = await request.json();
+            console.log(requestBody);
+
+            var order_info = await jlfakaapi(requestBody);
+
+            if (order_info == false) {
+                return new Response('ERROR');
+            } else {
+                return new Response(JSON.stringify(order_info));
+            }
+            break;
+        default:
+            return new Response(enroll, {
+                status: 200,
+                headers: {
+                    "Content-Type": "text/html; charset=utf-8"
+                }
+            });
+            break;
+    }
+}
+
+
+
+addEventListener('fetch', event => {
+    return event.respondWith(handleRequest(event.request))
+})
