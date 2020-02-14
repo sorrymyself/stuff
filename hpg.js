@@ -34,10 +34,6 @@ function getPayment_method() {
 
 function getPrice() {
 
-    $$('.waitprice').show();
-    $$('.waitprice .mdui-spinner').show();
-    $$('.waitprice .theprice').hide();
-
     var lastname = $$('#lastname').val();
     var firstname = $$('#firstname').val();
     var product = getProduct();
@@ -52,6 +48,9 @@ function getPrice() {
         lastname != '' &
         firstname != ''
     ) {
+        $$('.waitprice').show();
+        $$('.waitprice .mdui-spinner').show();
+        $$('.waitprice .theprice').hide();
         //get price
         $$.ajax({
             method: 'POST',
@@ -59,6 +58,7 @@ function getPrice() {
             data: JSON.stringify(data),
             dataType: 'json',
             success: function (price) {
+                console.log(price);
                 $$('.theprice span').html(price);
                 $$('.waitprice .mdui-spinner').hide();
                 $$('.waitprice .theprice').show();
