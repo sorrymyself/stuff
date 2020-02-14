@@ -87,6 +87,8 @@ $$('.mdui-textfield').on('click', function () {
 
 
 function formSubmit(e) {
+    
+    console.log(e);
 
     var price = $$('.theprice span').html();
 
