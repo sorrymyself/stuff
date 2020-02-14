@@ -22,54 +22,40 @@ function getDomain() {
 }
 
 
-function showPrice() {
+function getPayment_method() {
+    $$('#payment_method option').filter(function (idx, e) {
+        if (e.selected) {
+            var payment_method = e.value;
+        }
+    });
+    return payment_method.value
+}
+
+
+function getPrice() {
+
+    $$('.price').hide();
+
+    var price = '';
+
     var lastname = $$('#lastname').val();
     var firstname = $$('#firstname').val();
-    var username = $$('#username').val();
-    var product = getProduct();
-    var domain = getDomain();
+    //        var username = $$('#username').val();
+    //        var product = getProduct();
+    //        var domain = getDomain();
     //console.log(`${lastname} ${firstname} ${username} ${product} ${domain}`);
 
     if (
         lastname != '' &
         firstname != ''
     ) {
-        switch (product) {
-            case 'gd':
-                switch (domain) {
-                    case 'best':
-                        var price = '25.00';
-                        break;
-                    case 'nz':
-                        price = '35.00';
-                        break;
-                    case 'rs':
-                        price = '37.00';
-                        break;
-                };
-                break;
-            case 'od':
-                switch (domain) {
-                    case 'best':
-                        var price = '1.00';
-                        break;
-                    case 'nz':
-                        price = '2.00';
-                        break;
-                    case 'rs':
-                        price = '3.00';
-                        break;
-                };
-                break;
-            case 'ic':
-                break;
-        };
+        //post and get price
+        price = '35.00';
 
-        $$('.theprice').html(`￥ ${price}`);
-        $$('.price').show();
+        $$('.theprice span').html(`${price}`);
+        $$('.waitprice').show();
     }
 
-    return price;
 }
 
 grecaptcha.ready(function () {
@@ -80,38 +66,55 @@ grecaptcha.ready(function () {
         })
         .then(function (token) {
             // add token value to form
-            document.getElementById('g-recaptcha-response').value = token;
+            $$('#g-recaptcha-response').val() = token;
         });
 });
 
 $$('#sendmail').on('click', function (e) {
-    console.log('document rerfrefady');
     $$('#sendmaildiv').toggle();
 });
 
 
 $$('#product').on('close.mdui.select', function () {
-    showPrice();
+    getPrice();
 });
 
 $$('#domain').on('close.mdui.select', function () {
-    showPrice();
+    getPrice();
 });
 
 $$('.mdui-textfield').on('click', function () {
-    showPrice();
+    getPrice();
 });
 
 
-$$('#submit').on('click', function (e) {
+$$('form').on('submit', function (e) {
     e.preventDefault();
 
-    var data = $$('form').serializeArray();
-    var price = showPrice()
+    var price = $$('.theprice span').html();
+
+    var lastname = $$('#lastname').val();
+    var firstname = $$('#firstname').val();
+    var username = $$('#username').val();
+    var product = getProduct();
+    var domain = getDomain();
+    var recaptcha_token = $$('#g-recaptcha-response').val();
+    var payment_method = getPayment_method();
+
+    var data = {
+        'lastname': lastname,
+        'firstname': firstname,
+        'username': username,
+        'product': product,
+        'domain': domain,
+        'recaptcha_token': recaptcha_token,
+        'payment_method': payment_method
+    };
 
     mdui.dialog({
         title: '支付',
         content: `点击确认后您需支付 ${price} 元，期间请勿刷新网页。`,
+        modal: true,
         buttons: [
             {
                 text: '取消'
@@ -119,7 +122,22 @@ $$('#submit').on('click', function (e) {
             {
                 text: '确认',
                 onClick: function (inst) {
-                    window.open(`https://enroll.hpg.ac.cn/pay/${price}`);
+                    //html change
+                    $$('.enroll h2').html('请稍后...');
+                    $$('.accountinfo').hide();
+                    $$('.checkout').hide();
+                    $$('.mdui-progress').show();
+                    $$('.bg3').css('height', '100vh');
+                    //post data
+                    $$.ajax({
+                        method: 'POST',
+                        url: '/pay',
+                        data: data,
+                        success: function (data) {
+                            console.log(data);
+                        }
+                    });
+
                 }
             }
         ]
