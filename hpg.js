@@ -48,17 +48,17 @@ function getPrice() {
         firstname != ''
     ) {
         //get price
-        $$.ajax({
-            method: 'POST',
-            url: '/check',
-            data: {
-                'product': product,
-                'domain': domain
-            },
-            success: function (data) {
-                console.log(data);
-            }
-        });
+//        $$.ajax({
+//            method: 'POST',
+//            url: '/check',
+//            data: {
+//                'product': product,
+//                'domain': domain
+//            },
+//            success: function (data) {
+//                console.log(data);
+//            }
+//        });
 
         price = '35.00';
 
