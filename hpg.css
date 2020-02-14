@@ -153,27 +153,44 @@ form {
     width: 45%
 }
 
-.price {
-    width: 100%;
-    height: 200px;
-    margin-top: 40px;
-    display: flex;
-    align-items: flex-end
+.checkout button {
+    float: right;
+    margin-top: 30px;
+    margin-bottom: 60px
 }
 
-.pay {
-    position: relative;
-    left: 100%;
-    transform: translateX(-100%)
+.mylist {
+    padding-top: 20px
+}
+
+.mylist,
+.mylist p {
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+.mylist i {
+    color: #DD1B95
+}
+
+@media screen and (max-width: 400px) {
+    .mylist i {
+        display: none
+    }
 }
 
 .theprice {
     font-size: 80px;
-    margin-right: 20px;
     font-weight: 300;
-    color: gray;
+    color: #FC7C1C;
     text-shadow: 1px 1px #f08cec
 }
+
+.waitprice {
+    display: none
+}
+
 
 @media screen and (max-width: 1700px) {
     .theprice {
