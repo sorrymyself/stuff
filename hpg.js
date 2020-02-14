@@ -33,7 +33,7 @@ function getPayment_method() {
 
 
 function getPrice() {
-    
+
     $$('.waitprice').hide();
 
     var lastname = $$('#lastname').val();
@@ -56,8 +56,7 @@ function getPrice() {
             url: '/getPrice',
             data: JSON.stringify(data),
             dataType: 'json',
-            success: function (data) {
-                var price = data;
+            success: function (price) {
                 $$('.theprice span').html(price);
                 $$('.waitprice').show();
             }
