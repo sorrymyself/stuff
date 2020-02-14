@@ -59,7 +59,7 @@ function getPrice() {
             dataType: 'json',
             success: function (price) {
                 console.log(price);
-                $$('.theprice span').html(price);
+                $$('.theprice').html(price);
                 $$('.waitprice .mdui-spinner').hide();
                 $$('.waitprice .theprice').show();
             }
