@@ -35,7 +35,7 @@ function getPayment_method() {
 function getPrice() {
 
     $$('.waitprice').show();
-    $$('.waitprice mdui-spinner').show();
+    $$('.waitprice .mdui-spinner').show();
     $$('.waitprice .theprice').hide();
 
     var lastname = $$('#lastname').val();
@@ -60,7 +60,7 @@ function getPrice() {
             dataType: 'json',
             success: function (price) {
                 $$('.theprice span').html(price);
-                $$('.waitprice mdui-spinner').hide();
+                $$('.waitprice .mdui-spinner').hide();
                 $$('.waitprice .theprice').show();
             }
         });
