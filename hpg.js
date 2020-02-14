@@ -88,7 +88,7 @@ $$('.mdui-textfield').on('click', function () {
 
 function formSubmit(token) {
 
-    var price = $$('.theprice span').html();
+    var price = $$('.theprice').html();
 
     var lastname = $$('#lastname').val();
     var firstname = $$('#firstname').val();
