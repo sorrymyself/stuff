@@ -135,7 +135,17 @@ function formSubmit(token) {
                         data: JSON.stringify(data),
                         dataType: 'json',
                         success: function (data) {
-                            console.log(data);
+                            var amount = data.amount;
+                            var method = data.method;
+                            var orderid = data.orderid;
+                            var qrcode = data.qrcode;
+
+                            $$('.enroll h2').html('请付款...');
+                            $$('.mdui-progress').hide();
+
+                            $$('#`${method}`').show();
+                            $$('#`${method}` img').attr('src', qrcode);
+
                         }
                     });
 
