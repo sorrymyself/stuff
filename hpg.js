@@ -34,8 +34,6 @@ function getPayment_method() {
 
 function getPrice() {
 
-    $$('.waitprice').hide();
-
     var lastname = $$('#lastname').val();
     var firstname = $$('#firstname').val();
     var product = getProduct();
@@ -61,7 +59,7 @@ function getPrice() {
             }
         });
 
-        $$('.theprice span').html(`${price}`);
+        $$('.theprice span').html(price);
         $$('.waitprice').show();
     }
 
