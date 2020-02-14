@@ -34,6 +34,7 @@ function getPayment_method() {
 
 function getPrice() {
 
+    $$('.waitprice').show();
     $$('.waitprice mdui-spinner').show();
     $$('.waitprice .theprice').hide();
 
