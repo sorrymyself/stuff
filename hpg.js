@@ -43,24 +43,25 @@ function getPrice() {
     var product = getProduct();
     var domain = getDomain();
 
+    var data = {
+        'product': product,
+        'domain': domain
+    };
+
     if (
         lastname != '' &
         firstname != ''
     ) {
         //get price
-        //        $$.ajax({
-        //            method: 'POST',
-        //            url: '/check',
-        //            data: {
-        //                'product': product,
-        //                'domain': domain
-        //            },
-        //            success: function (data) {
-        //                console.log(data);
-        //            }
-        //        });
-
-        price = '35.00';
+        $$.ajax({
+            method: 'POST',
+            url: '/getPrice',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            success: function (data) {
+                price = data
+            }
+        });
 
         $$('.theprice span').html(`${price}`);
         $$('.waitprice').show();
@@ -131,7 +132,7 @@ function formSubmit(token) {
                     //post data
                     $$.ajax({
                         method: 'POST',
-                        url: '/pay',
+                        url: '/checkout',
                         data: JSON.stringify(data),
                         dataType: 'json',
                         success: function (data) {
