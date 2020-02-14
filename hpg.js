@@ -87,62 +87,58 @@ $$('.mdui-textfield').on('click', function () {
 
 
 function formSubmit(e) {
-    $$('form').on('submit', function (e) {
-        e.preventDefault();
 
-        var price = $$('.theprice span').html();
+    var price = $$('.theprice span').html();
 
-        var lastname = $$('#lastname').val();
-        var firstname = $$('#firstname').val();
-        var username = $$('#username').val();
-        var contactemail = $$('#contactemail').val();
-        var product = getProduct();
-        var domain = getDomain();
-        var payment_method = getPayment_method();
+    var lastname = $$('#lastname').val();
+    var firstname = $$('#firstname').val();
+    var username = $$('#username').val();
+    var contactemail = $$('#contactemail').val();
+    var product = getProduct();
+    var domain = getDomain();
+    var payment_method = getPayment_method();
 
-        var data = {
-            'lastname': lastname,
-            'firstname': firstname,
-            'username': username,
-            'contactemail': contactemail,
-            'product': product,
-            'domain': domain,
-            'payment_method': payment_method
-        };
+    var data = {
+        'lastname': lastname,
+        'firstname': firstname,
+        'username': username,
+        'contactemail': contactemail,
+        'product': product,
+        'domain': domain,
+        'payment_method': payment_method
+    };
 
-        mdui.dialog({
-            title: '支付',
-            content: `点击确认后您需支付 ${price} 元，期间请勿刷新网页。`,
-            modal: true,
-            buttons: [
-                {
-                    text: '取消'
+    mdui.dialog({
+        title: '支付',
+        content: `点击确认后您需支付 ${price} 元，期间请勿刷新网页。`,
+        modal: true,
+        buttons: [
+            {
+                text: '取消'
             },
-                {
-                    text: '确认',
-                    onClick: function (inst) {
-                        //html change
-                        $$('.enroll h2').html('请稍后...');
-                        $$('.accountinfo').hide();
-                        $$('.checkout').hide();
-                        $$('.mdui-progress').show();
-                        $$('.bg3').css('height', '100vh');
-                        //post data
-                        $$.ajax({
-                            method: 'POST',
-                            url: '/pay',
-                            data: JSON.stringify(data),
-                            dataType: 'json',
-                            success: function (data) {
-                                console.log(data);
-                            }
-                        });
+            {
+                text: '确认',
+                onClick: function (inst) {
+                    //html change
+                    $$('.enroll h2').html('请稍后...');
+                    $$('.accountinfo').hide();
+                    $$('.checkout').hide();
+                    $$('.mdui-progress').show();
+                    $$('.bg3').css('height', '100vh');
+                    //post data
+                    $$.ajax({
+                        method: 'POST',
+                        url: '/pay',
+                        data: JSON.stringify(data),
+                        dataType: 'json',
+                        success: function (data) {
+                            console.log(data);
+                        }
+                    });
 
-                    }
+                }
             }
         ]
-        });
-
     });
 
 
