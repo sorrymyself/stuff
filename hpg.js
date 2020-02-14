@@ -58,8 +58,8 @@ function getPrice() {
             data: JSON.stringify(data),
             dataType: 'json',
             success: function (data) {
-                console.log(price.price);
-                $$('.theprice').html(price.price);
+                console.log(data.price);
+                $$('.theprice').html(data.price);
                 $$('.waitprice .mdui-spinner').hide();
                 $$('.waitprice .theprice').show();
             }
