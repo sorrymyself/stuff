@@ -143,8 +143,13 @@ function formSubmit(token) {
                             $$('.enroll h2').html('请付款...');
                             $$('.mdui-progress').hide();
 
-                            $$('#`${method}`').show();
-                            $$('#`${method}` img').attr('src', qrcode);
+                            if (method == 'alipay') {
+                                $$('#alipay').show();
+                                $$('#alipay img').attr('src', qrcode);
+                            } else if (method == 'wechat') {
+                                $$('#wechat').show();
+                                $$('#wechat img').attr('src', qrcode);
+                            }
 
                         }
                     });
