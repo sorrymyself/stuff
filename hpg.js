@@ -57,9 +57,9 @@ function getPrice() {
             url: '/getPrice',
             data: JSON.stringify(data),
             dataType: 'json',
-            success: function (price) {
-                console.log(price);
-                $$('.theprice').html(price);
+            success: function (data) {
+                console.log(price.price);
+                $$('.theprice').html(price.price);
                 $$('.waitprice .mdui-spinner').hide();
                 $$('.waitprice .theprice').show();
             }
