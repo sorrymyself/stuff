@@ -96,6 +96,7 @@ $$('form').on('submit', function (e) {
     var lastname = $$('#lastname').val();
     var firstname = $$('#firstname').val();
     var username = $$('#username').val();
+    var contactemail = $$('#contactemail').val();
     var product = getProduct();
     var domain = getDomain();
     var recaptcha_token = $$('#g-recaptcha-response').val();
@@ -105,6 +106,7 @@ $$('form').on('submit', function (e) {
         'lastname': lastname,
         'firstname': firstname,
         'username': username,
+        'contactemail': contactemail,
         'product': product,
         'domain': domain,
         'recaptcha_token': recaptcha_token,
