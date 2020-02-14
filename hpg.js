@@ -134,7 +134,7 @@ $$('form').on('submit', function (e) {
                     $$.ajax({
                         method: 'POST',
                         url: '/pay',
-                        data: data,
+                        data: JSON.stringify(data),
                         success: function (data) {
                             console.log(data);
                         }
