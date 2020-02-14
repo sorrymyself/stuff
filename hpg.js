@@ -86,9 +86,7 @@ $$('.mdui-textfield').on('click', function () {
 });
 
 
-function formSubmit(e) {
-    
-    console.log(e);
+function formSubmit(token) {
 
     var price = $$('.theprice span').html();
 
@@ -116,7 +114,10 @@ function formSubmit(e) {
         modal: true,
         buttons: [
             {
-                text: '取消'
+                text: '取消',
+                onClick: function (inst) {
+                    grecaptcha.reset();
+                }
             },
             {
                 text: '确认',
