@@ -40,16 +40,26 @@ function getPrice() {
 
     var lastname = $$('#lastname').val();
     var firstname = $$('#firstname').val();
-    //        var username = $$('#username').val();
-    //        var product = getProduct();
-    //        var domain = getDomain();
-    //console.log(`${lastname} ${firstname} ${username} ${product} ${domain}`);
+    var product = getProduct();
+    var domain = getDomain();
 
     if (
         lastname != '' &
         firstname != ''
     ) {
-        //post and get price
+        //get price
+        $$.ajax({
+            method: 'POST',
+            url: '/check',
+            data: {
+                'product': product,
+                'domain': domain
+            },
+            success: function (data) {
+                console.log(data);
+            }
+        });
+
         price = '35.00';
 
         $$('.theprice span').html(`${price}`);
@@ -57,18 +67,6 @@ function getPrice() {
     }
 
 }
-
-grecaptcha.ready(function () {
-    // do request for recaptcha token
-    // response is promise with passed token
-    grecaptcha.execute('6LeF7dgUAAAAAJQpOYvQUNEUX6W1ljacOOz_zxQe', {
-            action: 'validate_captcha'
-        })
-        .then(function (token) {
-            // add token value to form
-            $$('#g-recaptcha-response').val() = token;
-        });
-});
 
 $$('#sendmail').on('click', function (e) {
     $$('#sendmaildiv').toggle();
@@ -88,7 +86,7 @@ $$('.mdui-textfield').on('click', function () {
 });
 
 
-$$('form').on('submit', function (e) {
+function formSubmit(e) {
     e.preventDefault();
 
     var price = $$('.theprice span').html();
@@ -99,7 +97,6 @@ $$('form').on('submit', function (e) {
     var contactemail = $$('#contactemail').val();
     var product = getProduct();
     var domain = getDomain();
-    var recaptcha_token = $$('#g-recaptcha-response').val();
     var payment_method = getPayment_method();
 
     var data = {
@@ -109,7 +106,6 @@ $$('form').on('submit', function (e) {
         'contactemail': contactemail,
         'product': product,
         'domain': domain,
-        'recaptcha_token': recaptcha_token,
         'payment_method': payment_method
     };
 
@@ -135,6 +131,7 @@ $$('form').on('submit', function (e) {
                         method: 'POST',
                         url: '/pay',
                         data: JSON.stringify(data),
+                        dataType: 'json',
                         success: function (data) {
                             console.log(data);
                         }
