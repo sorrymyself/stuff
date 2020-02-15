@@ -135,32 +135,31 @@ function formSubmit(token) {
                         data: JSON.stringify(data),
                         dataType: 'json',
                         success: function (data) {
-                            console.log(data);
+                            var amount = data.amount;
+                            var method = data.method;
+                            var orderid = data.orderid;
+                            var qrcode = data.qrcode;
 
-                            if (data == 'jlfakaapi ERROR') {
-                                $$('.enroll h2').html('哎呀出错了！请初始刷新网页重试...');
-                            } else {
-                                var amount = data.amount;
-                                var method = data.method;
-                                var orderid = data.orderid;
-                                var qrcode = data.qrcode;
+                            $$('.enroll h2').html('请付款...');
+                            $$('.mdui-progress').hide();
 
-                                $$('.enroll h2').html('请付款...');
-                                $$('.mdui-progress').hide();
-
-                                if (method == 'alipay') {
-                                    $$('#alipay').show();
-                                    $$('#alipay img').attr('src', qrcode);
-                                } else if (method == 'wechat') {
-                                    $$('#wechat').show();
-                                    $$('#wechat img').attr('src', qrcode);
-                                }
-
-                                $$('.bg3').css('height', 'auto');
-
-
+                            if (method == 'alipay') {
+                                $$('#alipay').show();
+                                $$('#alipay img').attr('src', qrcode);
+                            } else if (method == 'wechat') {
+                                $$('#wechat').show();
+                                $$('#wechat img').attr('src', qrcode);
                             }
+
+                            $$('.bg3').css('height', 'auto');
+
+
+                        },
+                        error: function () {
+                            console.log(data);
+                            $$('.enroll h2').html('哎呀出错了，请刷新网页重新尝试...');
                         }
+
                     });
 
                 }
