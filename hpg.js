@@ -123,7 +123,7 @@ function formSubmit(token) {
                 text: '确认',
                 onClick: function (inst) {
                     //html change
-                    $$('.enroll h2').html('请稍后...');
+                    $$('.enroll h2').html('生成订单中...');
                     $$('.accountinfo').hide();
                     $$('.checkout').hide();
                     $$('.mdui-progress').show();
@@ -158,6 +158,7 @@ function formSubmit(token) {
                         error: function () {
                             console.log(data);
                             $$('.enroll h2').html('哎呀出错了，请刷新网页重新尝试...');
+                            $$('.mdui-progress').hide();
                         }
 
                     });
