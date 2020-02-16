@@ -101,13 +101,13 @@ function submitData(data) {
 
 }
 
-$$('#userform').on('submit', function (e) { //don't need if recaptcha enabled
-    e.preventDefault();
-    formSubmit();
-});
+//$$('#userform').on('submit', function (e) { //don't need if recaptcha enabled
+//    e.preventDefault();
+//    formSubmit();
+//});
 
 
-function formSubmit() { //token inside if recaptcha enabled
+function formSubmit(token) { //token inside if recaptcha enabled
 
     var price = $$('.theprice').html();
 
@@ -137,7 +137,7 @@ function formSubmit() { //token inside if recaptcha enabled
             {
                 text: '取消',
                 onClick: function (inst) {
-                    //grecaptcha.reset();  //needed if recaptcha enabled
+                    grecaptcha.reset(); //needed if recaptcha enabled
                 }
             },
             {
