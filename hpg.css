@@ -91,11 +91,11 @@ a {
         margin: 20px auto
     }
 
-    form {
+    .theenroll {
         padding: 40px 20px !important;
     }
 
-    .theform {
+    #userform {
         display: block !important;
         width: 100% !important;
     }
@@ -136,12 +136,12 @@ a {
     padding-bottom: 300px
 }
 
-form {
+.theenroll {
     padding: 50px 50px 90px 50px;
     background-color: white
 }
 
-.theform {
+#userform {
     display: flex;
     justify-content: space-between;
     width: 95%;
@@ -206,4 +206,8 @@ form {
 
 }
 
-.alipay {}
+.payspinner {
+    width: 100%;
+    height: 200px;
+    z-index: -1
+}
