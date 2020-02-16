@@ -4,7 +4,7 @@ var $$ = mdui.JQ;
 function getProduct() {
     $$('#product option').filter(function (idx, e) {
         if (e.selected) {
-            var product = e.value;
+            var product = e;
         }
     });
     return product.value
@@ -14,21 +14,11 @@ function getProduct() {
 function getDomain() {
     $$('#domain option').filter(function (idx, e) {
         if (e.selected) {
-            var domain = e.value;
+            var domain = e;
         }
     });
     //console.log(domain.value);
     return domain.value;
-}
-
-
-function getPayment_method() {
-    $$('#payment_method option').filter(function (idx, e) {
-        if (e.selected) {
-            var payment_method = e.value;
-        }
-    });
-    return payment_method.value
 }
 
 
@@ -44,6 +34,8 @@ function getPrice() {
         'domain': domain
     };
 
+    console.log(product + domain);
+
     if (
         lastname != '' &
         firstname != ''
@@ -58,10 +50,11 @@ function getPrice() {
             data: JSON.stringify(data),
             dataType: 'json',
             success: function (data) {
-                console.log(data.price);
-                $$('.theprice').html(data.price);
+                console.log(data);
+                $$('.theprice').html('￥ ' + data.price);
+                $$('#buycodelink').attr('href', data.buycodelink);
                 $$('.waitprice .mdui-spinner').hide();
-                $$('.waitprice .theprice').show();
+                $$('.waitprice .theprice, #inputcode').show();
             }
         });
     }
@@ -86,7 +79,39 @@ $$('.mdui-textfield').on('click', function () {
 });
 
 
-function formSubmit(token) {
+function submitData(data) {
+    //html change
+    $$('#progresstitle').html('请稍等...');
+    $$('.accountinfo, .checkout').hide();
+    $$('.mdui-progress').show();
+    $$('.bg3').css('height', '100vh');
+    //post data
+    $$.ajax({
+        method: 'POST',
+        url: '/checkout',
+        data: JSON.stringify(data),
+        dataType: 'json',
+        success: function (data) {
+
+        },
+        error: function () {
+            console.log(data);
+            $$('#progresstitle').html('哎呀出错了，请刷新网页重新尝试...');
+            $$('.mdui-progress').hide();
+        }
+
+    });
+
+
+}
+
+// $$('#userform').on('submit', function (e) { //don't need if recaptcha enabled
+//     e.preventDefault();
+//     formSubmit();
+// });
+
+
+function formSubmit(token) { //token inside if recaptcha enabled
 
     var price = $$('.theprice').html();
 
@@ -96,7 +121,7 @@ function formSubmit(token) {
     var contactemail = $$('#contactemail').val();
     var product = getProduct();
     var domain = getDomain();
-    var payment_method = getPayment_method();
+    var code = $$('#code').val();
 
     var data = {
         'lastname': lastname,
@@ -105,64 +130,24 @@ function formSubmit(token) {
         'contactemail': contactemail,
         'product': product,
         'domain': domain,
-        'payment_method': payment_method
+        'code': code
     };
 
     mdui.dialog({
-        title: '支付',
-        content: `点击确认后您需支付 ${price} 元，期间请勿刷新网页。`,
+        title: '提交',
+        content: '点击确认后开始创建账号，<b>期间请勿刷新网页。</b>',
         modal: true,
         buttons: [
             {
                 text: '取消',
                 onClick: function (inst) {
-                    grecaptcha.reset();
+                    grecaptcha.reset();  //needed if recaptcha enabled
                 }
             },
             {
                 text: '确认',
                 onClick: function (inst) {
-                    //html change
-                    $$('.enroll h2').html('生成订单中...');
-                    $$('.accountinfo').hide();
-                    $$('.checkout').hide();
-                    $$('.mdui-progress').show();
-                    $$('.bg3').css('height', '100vh');
-                    //post data
-                    $$.ajax({
-                        method: 'POST',
-                        url: '/checkout',
-                        data: JSON.stringify(data),
-                        dataType: 'json',
-                        success: function (data) {
-                            var amount = data.amount;
-                            var method = data.method;
-                            var orderid = data.orderid;
-                            var qrcode = data.qrcode;
-
-                            $$('.enroll h2').html('请付款...');
-                            $$('.mdui-progress').hide();
-
-                            if (method == 'alipay') {
-                                $$('#alipay').show();
-                                $$('#alipay img').attr('src', qrcode);
-                            } else if (method == 'wechat') {
-                                $$('#wechat').show();
-                                $$('#wechat img').attr('src', qrcode);
-                            }
-
-                            $$('.bg3').css('height', 'auto');
-
-
-                        },
-                        error: function () {
-                            console.log(data);
-                            $$('.enroll h2').html('哎呀出错了，请刷新网页重新尝试...');
-                            $$('.mdui-progress').hide();
-                        }
-
-                    });
-
+                    submitData(data)
                 }
             }
         ]
