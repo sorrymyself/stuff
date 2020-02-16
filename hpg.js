@@ -42,7 +42,7 @@ function getPrice() {
     ) {
         $$('.waitprice').show();
         $$('.waitprice .mdui-spinner').show();
-        $$('.waitprice .theprice').hide();
+        $$('.waitprice .theprice, #inputcode').hide();
         //get price
         $$.ajax({
             method: 'POST',
@@ -66,15 +66,11 @@ $$('#sendmail').on('click', function (e) {
 });
 
 
-$$('#product').on('close.mdui.select', function () {
+$$('#product, #domain').on('close.mdui.select', function () {
     getPrice();
 });
 
-$$('#domain').on('close.mdui.select', function () {
-    getPrice();
-});
-
-$$('.mdui-textfield').on('click', function () {
+$$('.accountinfo .mdui-textfield').on('click', function () {
     getPrice();
 });
 
@@ -105,13 +101,13 @@ function submitData(data) {
 
 }
 
-// $$('#userform').on('submit', function (e) { //don't need if recaptcha enabled
-//     e.preventDefault();
-//     formSubmit();
-// });
+$$('#userform').on('submit', function (e) { //don't need if recaptcha enabled
+    e.preventDefault();
+    formSubmit();
+});
 
 
-function formSubmit(token) { //token inside if recaptcha enabled
+function formSubmit() { //token inside if recaptcha enabled
 
     var price = $$('.theprice').html();
 
@@ -141,7 +137,7 @@ function formSubmit(token) { //token inside if recaptcha enabled
             {
                 text: '取消',
                 onClick: function (inst) {
-                    grecaptcha.reset();  //needed if recaptcha enabled
+                    //grecaptcha.reset();  //needed if recaptcha enabled
                 }
             },
             {
