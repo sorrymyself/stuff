@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPTV Web Player</title>
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/mdui/0.4.3/css/mdui.min.css">
+    <link href="https://vjs.zencdn.net/7.3.0/video-js.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="mdui-appbar">
+        <div class="mdui-toolbar mdui-color-cyan">
+            <a href="javascript:;" class="mdui-typo-title">IPTV Web Player</a>
+            <div class="mdui-toolbar-spacer"></div>
+        </div>
+    </div>
+
+    <div class="mdui-container mdui-m-t-4">
+        <div class="mdui-row">
+
+            <div class="mdui-col-xs-12 mdui-col-sm-12 mdui-col-md-9">
+
+                <video class="mdui-video-fluid mdui-col-xs-12" controls id="video" style="width: 100%">
+                    <source src="" type="">
+                </video>
+
+
+                <ul class="mdui-list mdui-col-xs-12">
+                    <li class="mdui-list-item mdui-ripple">
+                        <i class="mdui-list-item-avatar mdui-icon material-icons">tv</i>
+                        <div class="mdui-list-item-content">
+                            <div class="mdui-list-item-title channelname"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="mdui-col-xs-12 mdui-col-sm-12 mdui-col-md-3">
+
+                <ul class="mdui-list source" mdui-collapse="{accordion: true}">
+
+                    <li class="mdui-collapse-item mdui-collapse-item-open source">
+                        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                            <i class="mdui-list-item-icon mdui-icon material-icons">live_tv</i>
+                            <div class="mdui-list-item-content">选择源</div>
+                            <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                        </div>
+                        <ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
+                            <li class="mdui-list-item mdui-ripple">加载中...</li>
+                        </ul>
+                    </li>
+
+                </ul>
+
+
+                <ul class="mdui-list" mdui-collapse="{accordion: true}">
+
+                    <li class="mdui-collapse-item channels">
+                        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                            <i class="mdui-list-item-icon mdui-icon material-icons">live_tv</i>
+                            <div class="mdui-list-item-content">频道列表</div>
+                            <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                        </div>
+                        <ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
+                            <li class="mdui-list-item mdui-ripple">未选择源...</li>
+                        </ul>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <script src="https://cdnjs.loli.net/ajax/libs/mdui/0.4.3/js/mdui.min.js"></script>
+    <script src="https://vjs.zencdn.net/7.3.0/video.min.js"></script>
+    <script src="index.js"></script>
+
+</body>
+
+</html>
