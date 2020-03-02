@@ -41,7 +41,7 @@ function m3uparse(m3u) {
     var channel = '';
     var url = '';
     var flag = 0;
-    m3u.trim().split('\\n').forEach(function (line, linenum) {
+    m3u.trim().split('\n').forEach(function (line, linenum) {
 
         if (line.includes('EXTINF')) {
             channel = line.split(',')[1];
