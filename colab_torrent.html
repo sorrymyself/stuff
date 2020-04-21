@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdui/0.4.3/css/mdui.min.css">
+
+</head>
+
+<body>
+
+    <div class="mdui-container">
+        <div class="mdui-row">
+            <div class="mdui-col-xs-12 mdui-col-md-10 mdui-col-offset-md-1">
+                <form>
+                    <div class="mdui-textfield mdui-textfield-floating-label">
+                        <label class="mdui-textfield-label">Download Link</label>
+                        <input class="mdui-textfield-input" type="text" name="link" />
+                    </div>
+                    <div class="mdui-textfield mdui-textfield-floating-label">
+                        <label class="mdui-textfield-label">Save Path</label>
+                        <input class="mdui-textfield-input" type="text" name="path" />
+                    </div>
+                    <button type="submit" class="mdui-float-right mdui-m-t-3 mdui-btn mdui-btn-raised mdui-ripple mdui-color-deep-orange-accent">OK</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdui/0.4.3/js/mdui.min.js"></script>
+    <script>
+        var $$ = mdui.JQ;
+        $$('form').on('submit', function(e) {
+            e.preventDefault();
+            $$.ajax({
+                method: 'POST',
+                url: '/d',
+                data: JSON.stringify({
+                    link: e.target['link'].value.trim(),
+                    path: e.target['path'].value.trim()
+                }),
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+        });
+    </script>
+</body></html>
